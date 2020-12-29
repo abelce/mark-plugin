@@ -1,0 +1,24 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+#popup {
+    padding: 12px;
+}
+
+.item {
+    padding: 8px;
+}
+
+.item input {
+    height: 24px;
+    width: 300px;
+}
+
+.footer {
+    text-align: right;
+}
+
+.footer input[type=submit] {
+    width: 64px;
+}

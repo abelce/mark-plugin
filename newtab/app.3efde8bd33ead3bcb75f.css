@@ -1,0 +1,338 @@
+@charset "UTF-8";
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  box-sizing: border-box; }
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box; }
+
+/*===== 清除默认的margin的属性值 =====*/
+body,
+blockquote,
+figure,
+form,
+p,
+pre,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0; }
+
+em,
+i {
+  font-style: normal; }
+
+/*===== 统一设置列表的margin和padding，以及列表表形式 =====*/
+menu,
+ul,
+ol {
+  margin: 0;
+  padding: 0; }
+
+/*===== 全局定义字体以及页面背景 =====*/
+body {
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  background-color: #eff3f5;
+  line-height: 1.5;
+  transition: all 0.5s ease; }
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+button,
+select,
+textarea {
+  font-size: 14px;
+  line-height: 1.4; }
+
+/* 设置字体大小 */
+input[type='button'],
+input[type='submit'],
+input[type='reset'] {
+  font-size: 16px; }
+
+/* 设置字体大小，这部分跟前面写在一起，IE6中会无效 */
+/*===== 字体控制 =====*/
+body,
+input,
+button,
+select,
+optgroup,
+option,
+textarea,
+pre {
+  font-family: wu, 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'STHeiti', 'WenQuanYi Micro Hei', SimSun, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility; }
+
+/*===== 设置iframe的背景色以及去除个别浏览器iframe底部的几个像素 =====*/
+iframe {
+  background-color: #ffffff;
+  vertical-align: middle; }
+
+/*===== 设置文本链接样式 =====
+a{color:#48494d;text-decoration:none;-webkit-transition:all .3s ease;-moz-transition:all .3s ease;-ms-transition:all .3s ease;-o-transition:all .3s ease;transition:all .3s ease;cursor:pointer;}
+a:hover{text-decoration:none;color:#00A7EB;}*/
+a {
+  outline: medium none;
+  text-decoration: none;
+  background: transparent;
+  transition: all 0.2s ease-in-out; }
+
+a:hover {
+  color: #3498db;
+  /*浅蓝色*/ }
+
+/*===== 去除个别浏览器图片底部的几个像素，以及设置图片形式链接无边框 =====*/
+img {
+  vertical-align: middle; }
+
+a img {
+  border: 0 none; }
+
+/*===== 设置表单元素的样式 =====*/
+fieldset {
+  margin: 0;
+  padding: 0; }
+
+legend {
+  color: windowtext; }
+
+/* 设置表单域部分的字体颜色为系统窗体文本颜色 */
+button,
+input.ie6 {
+  overflow: visible;
+  padding: 0.1em 0.25em;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  transition: all 0.3s ease; }
+
+/* 尽量统一按钮的大小，鉴于IE6不支持【属性选择符】，所以使用一个类名来控制 */
+input[type='button'],
+input[type='submit'],
+input[type='reset'] {
+  overflow: visible;
+  padding: 0.1em 0.25em;
+  cursor: pointer; }
+
+/* 尽量同意按钮的大小，如果采用input方式做的按钮 */
+/* 统一文本输入框、下拉、文本框的背景色，避免被用户设置系统颜色而破坏页面色彩 */
+select {
+  border: 1px inset; }
+
+/* 统一下拉的边框 */
+textarea {
+  overflow: auto;
+  vertical-align: text-bottom;
+  *vertical-align: auto;
+  border: 1px solid;
+  resize: vertical; }
+
+/* 滚动条为auto，与周边的元素对齐方式，其中hack部分是IE6&7中vertical-align影响范围清除，resize为上下可拉动，避免左右拉动破坏页面布局，如有需要可以设置为none */
+/*===== 设置表格元素的样式 =====*/
+table {
+  border-spacing: 0; }
+
+/* 合并表格的间隙，去掉单元格之间的间距，如有需要合并单元格为细线表格，可增加 border-collapse:collapse; */
+td,
+th,
+caption {
+  padding: 0; }
+
+.link_button, .link_button_green {
+  padding: 8px 12px;
+  border: 1px solid;
+  border-radius: 4px;
+  background-color: #ffffff;
+  width: 100%;
+  display: inline-block;
+  text-align: center; }
+
+.link_button_green {
+  color: #21ba45;
+  border-color: #21ba45; }
+  .link_button_green:hover {
+    color: #21ba45; }
+
+.style__layout--2QMNB {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  background-color: #eceff1;
+  overflow: hidden; }
+  .style__layout_sidebar--2SM-n {
+    margin-right: 12px; }
+  .style__layout_content--1Ipyv {
+    flex: 1; }
+
+.style__sidebar--CIZdQ {
+  width: 60px;
+  background-color: #ffffff;
+  padding: 12px 0;
+  height: 100%; }
+  .style__sidebar_item--10u8e {
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0;
+    font-weight: 500;
+    cursor: pointer; }
+    .style__sidebar_item_active--2veej {
+      color: #1890ff; }
+
+.style__easy-selector--3LpZd {
+  background-color: #646c7b;
+  position: relative;
+  width: 100px;
+  height: 30px;
+  background-color: #f8f9fb;
+  cursor: pointer; }
+  .style__easy-selector--3LpZd .style__content--2tkwV {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; }
+  .style__easy-selector--3LpZd .style__title--14Hx5 {
+    margin-left: 12px; }
+  .style__easy-selector--3LpZd .style__list--3bn4s {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background-color: #f8f9fb; }
+  .style__easy-selector--3LpZd .style__item--f2s_g {
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 12px; }
+    .style__easy-selector--3LpZd .style__item--f2s_g:hover {
+      color: #ffffff;
+      background-color: #007fff; }
+  .style__easy-selector--3LpZd .style__active--31IoZ {
+    background-color: #e9f3fd; }
+
+.style__mark-list--1WzEz .style__mark-item--DqrmV {
+  padding: 4px 8px;
+  background-color: #ffffff;
+  display: flex;
+  margin: 0 4px 8px 0; }
+
+.style__mark-list--1WzEz .style__mark-item--DqrmV,
+.style__mark-list--1WzEz .style__title--29a9D,
+.style__mark-list--1WzEz .style__url--126ZS {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
+
+.style__mark-list--1WzEz .style__title--29a9D {
+  color: #333;
+  font-weight: 500;
+  font-size: 16px; }
+
+.style__mark-list--1WzEz .style__url--126ZS,
+.style__mark-list--1WzEz .style__meta--Pk7LG {
+  font-size: 12px;
+  color: #c2c5cd; }
+
+.style__mark-list--1WzEz .style__meta--Pk7LG {
+  margin-top: 2px; }
+
+.style__mark-list--1WzEz .style__content--oDizr {
+  flex: 1;
+  overflow: hidden;
+  cursor: pointer; }
+
+.style__mark-list--1WzEz .style__left--2BQ2G {
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.style__mark-list--1WzEz .style__right--2NSF- {
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; }
+  .style__mark-list--1WzEz .style__right--2NSF- .iconfont {
+    font-size: 16px;
+    cursor: pointer; }
+    .style__mark-list--1WzEz .style__right--2NSF- .iconfont:before {
+      color: #1890ff; }
+
+.style__actionMenu--2gZ3M .ant-dropdown-menu-item {
+  font-size: 12px; }
+  .style__actionMenu--2gZ3M .ant-dropdown-menu-item a {
+    color: #1890ff; }
+
+.style__source-bar--6-ssq {
+  background-color: #ffffff;
+  margin: 0 0 12px 0;
+  border-radius: 2px;
+  padding: 4px 12px; }
+
+.style__list_container--OptNu {
+  height: 100%;
+  display: flex;
+  flex-direction: column; }
+  .style__list_container--OptNu .style__list--12O7I {
+    width: 600px;
+    overflow: auto;
+    height: 100%; }
+  .style__list_container--OptNu .style__main--5_2sB {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 8px; }
+
+.style__header--314CG {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0; }
+  .style__header--314CG .style__left--Ft0_0 {
+    display: flex; }
+    .style__header--314CG .style__left--Ft0_0 > div {
+      margin-right: 24px; }
+  .style__header--314CG .style__add--1lKzs {
+    cursor: pointer;
+    display: flex;
+    align-items: center; }
+    .style__header--314CG .style__add--1lKzs .iconadd:hover::before {
+      color: #1890ff; }
+
+.style__detail--2mBR2 {
+  margin: 0 8px;
+  flex: 1;
+  padding: 24px;
+  background-color: #fff; }
+  .style__detail_item--6T-kx {
+    padding: 8px; }
+  .style__detail--2mBR2 input[type=text] {
+    width: 100%; }
+  .style__detail--2mBR2 .style__submit--3yO1Y {
+    text-align: right; }
+    .style__detail--2mBR2 .style__submit--3yO1Y input[type=submit] {
+      padding: 2px 8px; }
+

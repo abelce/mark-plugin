@@ -1,0 +1,23 @@
+@import './reset.scss';
+@import './outputs.scss';
+// @import '~antd/dist/antd.css';
+
+.link_button {
+    padding: 8px 12px;
+    border: 1px solid ;
+    border-radius: 4px;
+    background-color: #ffffff;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+.link_button_green {
+    $color: #21ba45;
+    @extend .link_button;
+    color: $color;
+    border-color: $color;
+    &:hover {
+        color: $color;
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "Hello Extensions",
+    "description": "文章收藏",
+    "version": "0.0.2",
+    "manifest_version": 2,
+    "icons":
+	{
+		"16": "logo.png",
+		"48": "logo.png",
+		"128": "logo.png"
+	},
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": "logo.png"
+    },
+	"permissions": [ "tabs", "storage", "http://*/", "https://*/" ],
+    "background":
+	{
+		"page": "background.html"
+	},
+	"chrome_url_overrides":
+	{
+		"newtab": "newtab/index.html"
+	}
+}
