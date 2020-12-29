@@ -42,7 +42,6 @@ function setData(key, value) {
 }
 // 获取数据
 function getData(key) {
-    debugger
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get({[key]: undefined}, function(items) {
             resolve(items ? items[key] : null);
