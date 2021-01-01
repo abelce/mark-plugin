@@ -1,7 +1,7 @@
 {
     "name": "VMark",
     "description": "文章收藏插件",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "manifest_version": 2,
     "icons":
 	{

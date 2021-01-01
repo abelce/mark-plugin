@@ -43,11 +43,11 @@ function setSelectOptions() {
 }
 
 // 创建数据，保存
-function create(data) { 
-    chrome.runtime.sendMessage({data: JSON.stringify(data)}, function(response) {
-        console.log('收到来自后台的回复：' + response);
-        window.close();
-    });
+async function create(data) { 
+    const bg = chrome.extension.getBackgroundPage();
+    const res = await bg.createDate(data);
+    console.log('popup create', res);
+    window.close();
 }
 
 function getFormData() {
