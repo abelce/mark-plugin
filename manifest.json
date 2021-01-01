@@ -1,7 +1,7 @@
 {
-    "name": "Hello Extensions",
-    "description": "文章收藏",
-    "version": "0.0.2",
+    "name": "VMark",
+    "description": "文章收藏插件",
+    "version": "0.0.3",
     "manifest_version": 2,
     "icons":
 	{
