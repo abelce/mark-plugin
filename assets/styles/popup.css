@@ -10,7 +10,8 @@
     padding: 8px;
 }
 
-.item input {
+.item input,
+.item select {
     height: 24px;
     width: 300px;
 }
@@ -19,6 +20,6 @@
     text-align: right;
 }
 
-.footer input[type=submit] {
+.footer button {
     width: 64px;
 }

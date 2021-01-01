@@ -200,6 +200,39 @@ caption {
     .style__sidebar_item_active--2veej {
       color: #1890ff; }
 
+.style__easy-selector--3LpZd {
+  background-color: #646c7b;
+  position: relative;
+  width: 100px;
+  height: 30px;
+  background-color: #f8f9fb;
+  cursor: pointer; }
+  .style__easy-selector--3LpZd .style__content--2tkwV {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; }
+  .style__easy-selector--3LpZd .style__title--14Hx5 {
+    margin-left: 12px; }
+  .style__easy-selector--3LpZd .style__list--3bn4s {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background-color: #f8f9fb; }
+  .style__easy-selector--3LpZd .style__item--f2s_g {
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 12px; }
+    .style__easy-selector--3LpZd .style__item--f2s_g:hover {
+      color: #ffffff;
+      background-color: #007fff; }
+  .style__easy-selector--3LpZd .style__active--31IoZ {
+    background-color: #e9f3fd; }
+
 .style__mark-list--1WzEz .style__mark-item--DqrmV {
   padding: 4px 8px;
   background-color: #ffffff;
@@ -224,7 +257,10 @@ caption {
   color: #c2c5cd; }
 
 .style__mark-list--1WzEz .style__meta--Pk7LG {
-  margin-top: 2px; }
+  margin-top: 2px;
+  display: flex; }
+  .style__mark-list--1WzEz .style__meta--Pk7LG > div {
+    margin-right: 4px; }
 
 .style__mark-list--1WzEz .style__content--oDizr {
   flex: 1;

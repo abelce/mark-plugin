@@ -1,3 +1,5 @@
+import {ENUM_array_MarkType} from './utils.js';
+
 (function() {
     init();
     const submit = document.getElementById('submit')
@@ -16,7 +18,28 @@ function init() {
         // 设置url
         const url = $.querySelector('#url');
         url.value = w.url;
+
+        const type = $.querySelector('#type');
+        type.value = "default";
+
+        setSelectOptions();
     })
+}
+
+// 设置下拉框的option
+function setSelectOptions() {
+    const $ = document.getElementById('popup');
+    const type = $.querySelector('#type');
+    const fragement = document.createDocumentFragment();
+
+    ENUM_array_MarkType.map(item => {
+        const option = document.createElement('option');
+        option.value = item.value;
+        option.innerHTML = item.description;
+        fragement.appendChild(option);
+    })
+    type.innerHTML = '';
+    type.appendChild(fragement);
 }
 
 // 创建数据，保存
