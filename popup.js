@@ -64,8 +64,11 @@ function getFormData() {
         alert("地址必填")
         return;
     }
+    const type = $.querySelector('#type');
+    const typeValue = type.value;
     create({
         title: titleValue,
         url: urlValue,
+        type: typeValue,
     });
 }
