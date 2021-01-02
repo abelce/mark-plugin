@@ -42,7 +42,12 @@ function getAllData() {
 
 // 存储数据
 async function setData(key, value) {
-    __DATA = await setStorage(key, value) || [];
+    let res = await setStorage(key, value);
+    if (!Array.isArray(res)) {
+        res = [];
+    }
+    __DATA = res;
+    return __DATA;
 }
 // 获取数据
 function getData(key) {
