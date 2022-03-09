@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import IFrame from "./components/IFrame";
+import {ActionMode} from "./utils";
+import GetStart from "./components/GetStart";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [mode, setMode] = useState(ActionMode.Init);
+  const content = useMemo(() => {
+
+    switch(mode) {
+      case ActionMode.Init:
+        return <GetStart />
+    }
+  }, [mode]);
+
+  return createPortal(
+    <IFrame id="screen-iframe-app" name="screen-iframe-app" className="screen-iframe-actions">
+      {content}
+    </IFrame>,
+    document.getElementById("screen-extension-app")
   );
 }
 

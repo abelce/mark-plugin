@@ -1,12 +1,11 @@
 // import {ENUM_array_MarkType} from './utils.js';
 
-(function() {
-    init();
-    const create = createBtn.getElementById('createBtn')
-    createBtn.onclick = () => {
-        // getFormData();
-    }
-})()
+// (function() {
+//     // const createBtn = document.getElementById('createBtn')
+//     // createBtn.onclick = () => {
+//         // getFormData();
+//     // }
+// })()
 
 // // 设置初始化数据
 // function init() {
