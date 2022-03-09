@@ -1,0 +1,20 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.workflow {
+  width: 300px;
+  padding: 32px;
+  border-radius: 4px;
+}
+
+button {
+  outline: none;
+  margin: 10px;
+  border: none;
+  border-radius: 2px;
+}
+
+button.current {
+  box-shadow: 0 0 0 2px white, 0 0 0 4px black;
+}
