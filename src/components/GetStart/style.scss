@@ -1,0 +1,21 @@
+.start-modal-wrapper {
+    position: relative;
+}
+.start-modal {
+    box-shadow: rgb(0 0 0 / 10%) 0px 8px 8px;
+    height: 300px;
+    width: 300px;
+    margin: 8px;
+    border-radius: 4px;
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-modal-btn {
+    height: 96px;
+    width: 96px;
+    background-color: red;
+    cursor: pointer;
+}

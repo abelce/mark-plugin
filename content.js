@@ -1,4 +1,4 @@
-
+// frameborder="0"
 // 添加iframe
 function appendPluginIframe() {
     let screenExtension = document.createElement("screen-extension");

@@ -18,3 +18,12 @@ code {
   top: 12px;
   right: 96px;
 }
+
+.screen-iframe-record {
+  border: none;
+  width: 400px;
+  height: 100px;
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+}
