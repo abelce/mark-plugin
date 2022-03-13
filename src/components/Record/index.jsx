@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import IFrame from "../IFrame";
+import CompleteSvg from "./CompleteSvg";
+import CloseSvg  from "./CloseSvg";
 import "./style.scss";
 
-export default () => {
+export default ({onExpand}) => {
+  const _actionsRef = useRef(document.getElementById("screen-extension-app"));
+  console.log(_actionsRef);
   const [visable, setVisable] = useState(false);
   const [focusEle, setFocusEle] = useState();
 
@@ -32,7 +36,8 @@ export default () => {
 
   const changeHightLighter = (hoverEle) => {
     const hightLighterEle = document.querySelector(".screen-hight-lighter");
-    if (!hoverEle) {
+    // 当hover的元素没值，或者等于screen-hight-lighter元素时都不显示高亮元素
+    if (!hoverEle || hightLighterEle === hoverEle || (_actionsRef && _actionsRef.current.contains(hoverEle))) {
       hightLighterEle.setAttribute("style", `display: none !important;`);
       return;
     }
@@ -70,7 +75,14 @@ export default () => {
       name="screen-iframe-app"
       className="screen-iframe-recording"
     >
-      <div className="start-modal-wrapper"></div>
+      <div className="recording-actions">
+        <div className="icon complete">
+          <CompleteSvg className="complete-icon"/>
+        </div>
+        <div className="icon close">
+          <CloseSvg className="close-icon"/>
+        </div>
+      </div>
     </IFrame>
   );
 };

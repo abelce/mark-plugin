@@ -10,20 +10,25 @@ code {
   font-family: "source-code-pro", "Menlo", "Monaco", "Consolas", "Courier New", monospace;
 }
 
-.screen-iframe-actions {
+.screen-iframe-actions, .screen-iframe-recording {
   border: none;
+  position: fixed;
+}
+
+.screen-iframe-actions {
   width: 400px;
   height: 500px;
-  position: fixed;
   top: 12px;
   right: 96px;
 }
 
-.screen-iframe-record {
-  border: none;
-  width: 400px;
-  height: 100px;
-  position: fixed;
+.screen-iframe-recording {
+  height: 48px;
+  // width: 48px;
+  width: 100px;
   left: 12px;
   bottom: 12px;
+}
+.screen-iframe-recording-expand {
+  width: 88px;
 }

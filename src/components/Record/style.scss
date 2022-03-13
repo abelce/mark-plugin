@@ -1,15 +1,60 @@
 .screen-hight-lighter {
-    background-color: transparent;
-    border-radius: 8px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: red;
-    z-index: 99999;
+  background-color: transparent;
+  border-radius: 8px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: red;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  pointer-events: none;
+  will-change: transform;
+
+  &::before {
+    content: "";
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    position: fixed;
-    pointer-events: none;
-    will-change: transform;
+    position: absolute;
+    cursor: pointer;
+  }
+}
+
+.recording-actions {
+  display: flex;
+  align-items: center;
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    &:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+  .complete {
+    height: 48px;
+    width: 48px;
+    background-color: #ffa940;
+
+    &-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .close {
+    height: 36px;
+    width: 36px;
+    background-color: #ffffff;
+
+    &-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
 }
