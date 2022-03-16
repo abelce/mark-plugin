@@ -20,7 +20,7 @@
     "48": "/images/logo.png",
     "128": "/images/logo.png"
   },
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["storage", "activeTab", "tabs", "\u003Call_urls>"],
   "content_scripts": [
     {
       "all_frames": true,
