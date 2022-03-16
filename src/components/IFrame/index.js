@@ -20,6 +20,7 @@ export default function ({ children, ...props }) {
       {headNode &&
         createPortal(
           <>
+            <base href={`${chrome.runtime.getURL("")}`} />
             <link
               key="css"
               type="text/css"
