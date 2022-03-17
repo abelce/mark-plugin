@@ -198,10 +198,14 @@ module.exports = function (webpackEnv) {
       : isEnvDevelopment && "cheap-module-source-map",
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry: {
-      content: paths.appIndexJs,
-      background: paths.backgroundJs,
-    },
+    entry: isEnvDevelopment
+      ? {
+          content: paths.appIndexJs,
+        }
+      : {
+          content: paths.appIndexJs,
+          background: paths.backgroundJs,
+        },
     output: {
       // The build folder.
       path: paths.appBuild,
@@ -213,9 +217,9 @@ module.exports = function (webpackEnv) {
         ? "static/js/[name].js"
         : isEnvDevelopment && "static/js/[name].js",
       // There are also additional JS chunk files if you use code splitting.
-      chunkFilename: isEnvProduction
-        ? "static/js/[name].[contenthash:8].chunk.js"
-        : isEnvDevelopment && "static/js/[name].chunk.js",
+      // chunkFilename: isEnvProduction
+      //   ? "static/js/[name].[contenthash:8].chunk.js"
+      //   : isEnvDevelopment && "static/js/[name].chunk.js",
       assetModuleFilename: "static/media/[name].[hash][ext]",
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -644,7 +648,7 @@ module.exports = function (webpackEnv) {
             manifest[file.name] = file.path;
             return manifest;
           }, seed);
-          const entrypointFiles = entrypoints.main.filter(
+          const entrypointFiles = entrypoints.content.filter(
             (fileName) => !fileName.endsWith(".map")
           );
 

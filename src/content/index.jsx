@@ -11,13 +11,17 @@ export default class Content extends React.Component {
     runtimeLoaded: false,
   };
 
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
-    this.init();
+    // this.init();
   }
 
   init = () => {
     // https://developer.chrome.com/docs/extensions/reference/runtime/#type-OnInstalledReason
-    chrome.runtime.onInstalled.addListener(function (details) {
+    chrome.runtime.onInstalled.addListener( (details) => {
       this.setState({
         runtimeLoaded: true,
       });
@@ -43,14 +47,6 @@ export default class Content extends React.Component {
   };
 
   render() {
-    const { runtimeLoaded } = this.state;
-    if (!runtimeLoaded) {
-      return null;
-    }
-    return (
-      <screen-extension id="screen-extension-app">
-        {this.getContent()}
-      </screen-extension>
-    );
+    return this.getContent()
   }
 }

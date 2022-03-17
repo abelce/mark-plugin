@@ -4,7 +4,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "/static/js/background.js"
   },
   "action": {
     "default_icon": {
@@ -20,7 +20,10 @@
     "48": "/images/logo.png",
     "128": "/images/logo.png"
   },
-  "permissions": ["storage", "activeTab", "tabs", "\u003Call_urls>"],
+  "permissions": ["storage", "activeTab", "tabs"],
+  "host_permissions": [
+    "https://reactjs.org/"
+  ],
   "content_scripts": [
     {
       "all_frames": true,
