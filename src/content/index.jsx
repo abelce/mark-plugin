@@ -8,15 +8,26 @@ import Record from "../components/Record";
 export default class Content extends React.Component {
   state = {
     mode: ActionMode.Init,
+    runtimeLoaded: false,
+  };
+
+  componentDidMount() {
+    this.init();
+  }
+
+  init = () => {
+    // https://developer.chrome.com/docs/extensions/reference/runtime/#type-OnInstalledReason
+    chrome.runtime.onInstalled.addListener(function (details) {
+      this.setState({
+        runtimeLoaded: true,
+      });
+    });
   };
 
   onChangeMode = (mode) => {
     this.setState({
       mode,
     });
-    if (mode === ActionMode.Record) {
-      // this.addWindowEvent();
-    }
   };
 
   getContent = () => {
@@ -32,6 +43,10 @@ export default class Content extends React.Component {
   };
 
   render() {
+    const { runtimeLoaded } = this.state;
+    if (!runtimeLoaded) {
+      return null;
+    }
     return (
       <screen-extension id="screen-extension-app">
         {this.getContent()}
