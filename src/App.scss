@@ -13,6 +13,7 @@ code {
 .screen-iframe-actions, .screen-iframe-recording {
   border: none;
   position: fixed;
+  z-index: 99999;
 }
 
 .screen-iframe-actions {
@@ -20,6 +21,7 @@ code {
   height: 500px;
   top: 12px;
   right: 96px;
+  background-color: #fff;
 }
 
 .screen-iframe-recording {

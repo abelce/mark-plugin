@@ -1,13 +1,11 @@
 import React, { useMemo, useState } from "react";
-import ReactDOM, { createPortal } from "react-dom";
-import IFrame from "../components/IFrame";
-import { ActionMode } from "../utils";
+import { ActionMode, isDevelopmentEnv, isProductionEnv } from "../utils";
 import GetStart from "../components/GetStart";
 import Record from "../components/Record";
 
 export default class Content extends React.Component {
   state = {
-    mode: ActionMode.Init,
+    mode: isDevelopmentEnv ? ActionMode.Init : undefined,
     runtimeLoaded: false,
   };
 
@@ -16,16 +14,26 @@ export default class Content extends React.Component {
   }
 
   componentDidMount() {
-    // this.init();
+    this.init();
   }
 
   init = () => {
     // https://developer.chrome.com/docs/extensions/reference/runtime/#type-OnInstalledReason
-    chrome.runtime.onInstalled.addListener( (details) => {
-      this.setState({
-        runtimeLoaded: true,
+    // chrome.runtime.onInstalled.addListener( (details) => {
+    //   this.setState({
+    //     runtimeLoaded: true,
+    //   });
+    // });
+
+    if (isProductionEnv) {
+      // 点开插件图标的监听事件
+      chrome.action?.onClicked.addListener((tab) => {
+        console.log(tab);
+        this.setState({
+          mode: this.state.mode ? undefined : ActionMode.Init,
+        });
       });
-    });
+    }
   };
 
   onChangeMode = (mode) => {
@@ -43,10 +51,12 @@ export default class Content extends React.Component {
         );
       case ActionMode.Record:
         return <Record />;
+      default:
+        return null;
     }
   };
 
   render() {
-    return this.getContent()
+    return this.getContent();
   }
 }

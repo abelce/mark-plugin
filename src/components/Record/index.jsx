@@ -54,6 +54,11 @@ export default ({onExpand}) => {
     }
   };
 
+  // 关闭截屏功能
+  const handleClose = () => {
+
+  }
+
   useEffect(() => {
     addWindowEvent();
     return removeWindowEvent;
@@ -79,7 +84,7 @@ export default ({onExpand}) => {
         <div className="icon complete">
           <CompleteSvg className="complete-icon"/>
         </div>
-        <div className="icon close">
+        <div className="icon close" onClick={handleClose}>
           <CloseSvg className="close-icon"/>
         </div>
       </div>

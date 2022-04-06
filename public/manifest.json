@@ -26,7 +26,7 @@
   ],
   "content_scripts": [
     {
-      "all_frames": true,
+      "all_frames": false,
       "css": ["/static/css/content.css"],
       "js": ["/static/js/content.js"],
       "match_about_blank": true,
@@ -38,5 +38,8 @@
       "matches": ["<all_urls>"],
       "resources": ["index.html", "/static/*", "*.svg"]
     }
-  ]
+  ],
+  "externally_connectable": {
+    "matches": [ "http://localhost:3000/*" ]
+ }
 }
