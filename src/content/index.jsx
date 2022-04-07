@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { ActionMode, isDevelopmentEnv, isProductionEnv } from "../utils";
+import { ActionMode, getStorage, isDevelopmentEnv, isProductionEnv } from "../utils";
 import GetStart from "../components/GetStart";
 import Record from "../components/Record";
+import {PLUGIN_STATUS_KEY} from "../config";
 
 export default class Content extends React.Component {
   state = {
-    mode: isDevelopmentEnv ? ActionMode.Init : undefined,
+    mode: isDevelopmentEnv ? ActionMode.Init : ActionMode.None,
     runtimeLoaded: false,
   };
 
@@ -17,7 +18,7 @@ export default class Content extends React.Component {
     this.init();
   }
 
-  init = () => {
+  init = async () => {
     // https://developer.chrome.com/docs/extensions/reference/runtime/#type-OnInstalledReason
     // chrome.runtime.onInstalled.addListener( (details) => {
     //   this.setState({
@@ -26,12 +27,20 @@ export default class Content extends React.Component {
     // });
 
     if (isProductionEnv) {
-      // 点开插件图标的监听事件
-      chrome.action?.onClicked.addListener((tab) => {
-        console.log(tab);
+      const cacheStatus = await getStorage(PLUGIN_STATUS_KEY);
+      if (cacheStatus) {
         this.setState({
-          mode: this.state.mode ? undefined : ActionMode.Init,
-        });
+          mode: cacheStatus,
+        })
+      }
+      chrome.storage.onChanged.addListener( (changes, namespace) => {
+        for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+         if (key === PLUGIN_STATUS_KEY) {
+           this.setState({
+             mode: newValue,
+           })
+         }
+        }
       });
     }
   };
@@ -57,6 +66,9 @@ export default class Content extends React.Component {
   };
 
   render() {
-    return this.getContent();
+    return <div>
+      <div>html</div>
+      {this.getContent()}
+    </div>;
   }
 }

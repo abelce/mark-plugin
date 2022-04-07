@@ -1,3 +1,6 @@
+import { PLUGIN_STATUS_KEY } from "../config";
+import { ActionMode, getStorage, setStorage } from "../utils";
+
 chrome.runtime.onInstalled.addListener(async () => {
   // While we could have used `let url = "hello.html"`, using runtime.getURL is a bit more robust as
   // it returns a full URL rather than just a path that Chrome needs to be resolved contextually at
@@ -35,9 +38,9 @@ function reddenPage() {
 //   });
 
 // icon 点击事件
-chrome.action?.onClicked.addListener((tab) => {
-  console.log(tab);
-  // openSite();
+chrome.action?.onClicked.addListener(async (tab) => {
+  const prevStatus = await getStorage(PLUGIN_STATUS_KEY);
+  setStorage(PLUGIN_STATUS_KEY, prevStatus !== ActionMode.None ? ActionMode.None : ActionMode.Init);
 });
 
 // // 打开站点

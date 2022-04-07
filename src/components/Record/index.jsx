@@ -1,27 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import IFrame from "../IFrame";
 import CompleteSvg from "./CompleteSvg";
-import CloseSvg  from "./CloseSvg";
+import CloseSvg from "./CloseSvg";
 import "./style.scss";
+import { APP_ID } from "../../config";
 
-export default ({onExpand}) => {
-  const _actionsRef = useRef(document.getElementById("screen-extension-app"));
-  console.log(_actionsRef);
-  const [visable, setVisable] = useState(false);
+export default () => {
+  const _actionsRef = useRef(document.getElementById(APP_ID));
   const [focusEle, setFocusEle] = useState();
 
   const windowHoverEvent = (event) => {
-    // if (["HTML", "BODY"].includes(event.target.nodeName)) {
-    //   setFocusEle(undefined);
-    //   return;
-    // }
-    if (!focusEle || focusEle !== event.target) {
+    if ((!focusEle || focusEle !== event.target)) {
       setFocusEle(event.target);
     }
   };
 
   const windowClickEvent = (event) => {
-    // debugger;
+    debugger;
+      chrome.tabCapture.capture({}, (stream) => {
+        console.log(stream);
+        debugger;
+      });
   };
 
   const addWindowEvent = () => {
@@ -37,7 +36,11 @@ export default ({onExpand}) => {
   const changeHightLighter = (hoverEle) => {
     const hightLighterEle = document.querySelector(".screen-hight-lighter");
     // 当hover的元素没值，或者等于screen-hight-lighter元素时都不显示高亮元素
-    if (!hoverEle || hightLighterEle === hoverEle || (_actionsRef && _actionsRef.current.contains(hoverEle))) {
+    if (
+      !hoverEle ||
+      hightLighterEle === hoverEle ||
+      (_actionsRef && _actionsRef.current.contains(hoverEle))
+    ) {
       hightLighterEle.setAttribute("style", `display: none !important;`);
       return;
     }
@@ -46,18 +49,16 @@ export default ({onExpand}) => {
       hightLighterEle.setAttribute(
         "style",
         `display: block;transform: translate3d(${hoverEleRect.left - 2}px, ${
-          hoverEleRect.top - 2
+          hoverEleRect.top
         }px, 0px);width: ${hoverEleRect.width + 4}px; height: ${
-          hoverEleRect.height + 2
+          hoverEleRect.height + 4
         }px`
       );
     }
   };
 
   // 关闭截屏功能
-  const handleClose = () => {
-
-  }
+  const handleClose = () => {};
 
   useEffect(() => {
     addWindowEvent();
@@ -82,10 +83,10 @@ export default ({onExpand}) => {
     >
       <div className="recording-actions">
         <div className="icon complete">
-          <CompleteSvg className="complete-icon"/>
+          <CompleteSvg className="complete-icon" />
         </div>
         <div className="icon close" onClick={handleClose}>
-          <CloseSvg className="close-icon"/>
+          <CloseSvg className="close-icon" />
         </div>
       </div>
     </IFrame>

@@ -9,8 +9,8 @@ export default function ({ children, ...props }) {
     const load = () => {
       setBody(iframeNode.current.contentDocument.body);
     };
-    iframeNode.current.addEventListener("load", load, false);
-    return () => iframeNode.current.removeEventListener("load", load, false);
+    iframeNode.current?.addEventListener("load", load, false);
+    return () => iframeNode.current?.removeEventListener("load", load, false);
   }, []);
 
   return (

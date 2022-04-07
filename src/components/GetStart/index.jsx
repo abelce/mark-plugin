@@ -11,8 +11,9 @@ export default ({ onClick }) => {
     >
       <div className="start-modal-wrapper">
         <div className="start-modal">
+          <p>操作简单的流程制作应用</p>
           <div className="start-modal-btn" onClick={onClick}>
-            start-modal
+            开始
           </div>
         </div>
       </div>
