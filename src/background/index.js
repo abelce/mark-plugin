@@ -1,5 +1,5 @@
-import { PLUGIN_STATUS_KEY } from "../config";
-import { ActionMode, getStorage, setStorage } from "../utils";
+import { CAPTURE_TAB, CAPTURE_TAB_DATA, PLUGIN_STATUS_KEY } from "../config";
+import { ActionMode, createResponse, getStorage, setStorage } from "../utils";
 
 chrome.runtime.onInstalled.addListener(async () => {
   // While we could have used `let url = "hello.html"`, using runtime.getURL is a bit more robust as
@@ -22,6 +22,7 @@ chrome.runtime.onInstalled.addListener(async () => {
   // To view this log message, open chrome://extensions, find "Hello, World!", and click the
   // "service worker" link in the card to open DevTools.
   //   console.log(`Created tab ${tab.id}`);
+
 });
 
 function reddenPage() {
@@ -43,11 +44,31 @@ chrome.action?.onClicked.addListener(async (tab) => {
   setStorage(PLUGIN_STATUS_KEY, prevStatus !== ActionMode.None ? ActionMode.None : ActionMode.Init);
 });
 
-// // 打开站点
-// function openSite() {
-//     chrome.tabs.create({
-//       createProperties: {
-//           url: "https://app.vwood.xyz"
-//       }
-//     })
-// }
+async function captureVisibleTab() {
+  // chrome.tabs.captureVisibleTab().then((dataUrl)=> {
+  //   chrome.runtime.sendMessage({
+  //     key: CAPTURE_TAB_DATA,
+  //     data: dataUrl,
+  //   }, (response) => {
+  //     const a = response;
+  //     console.log(a);
+  //   });
+  // });
+
+  chrome.runtime.sendMessage({
+    key: CAPTURE_TAB_DATA,
+    data: "dataUrl",
+  }, (response) => {
+    if (chrome.runtime.lastError) {
+      // do you work, that's it. No more unchecked error
+    }
+  });
+}
+
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.key === CAPTURE_TAB) {
+    captureVisibleTab();
+    sendResponse(createResponse(true));
+  }
+});

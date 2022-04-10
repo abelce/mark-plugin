@@ -3,7 +3,7 @@ import IFrame from "../IFrame";
 import CompleteSvg from "./CompleteSvg";
 import CloseSvg from "./CloseSvg";
 import "./style.scss";
-import { APP_ID } from "../../config";
+import { APP_ID, CAPTURE_TAB, CAPTURE_TAB_DATA } from "../../config";
 
 export default () => {
   const _actionsRef = useRef(document.getElementById(APP_ID));
@@ -16,11 +16,11 @@ export default () => {
   };
 
   const windowClickEvent = (event) => {
-    debugger;
-      chrome.tabCapture.capture({}, (stream) => {
-        console.log(stream);
-        debugger;
-      });
+    chrome.runtime.sendMessage({
+      key: CAPTURE_TAB
+    }, (response) => {
+      console.log(response)
+    });
   };
 
   const addWindowEvent = () => {
@@ -64,6 +64,15 @@ export default () => {
     addWindowEvent();
     return removeWindowEvent;
   }, []);
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.key === CAPTURE_TAB_DATA) {
+        debugger;
+        sendResponse(createResponse(true));
+      }
+    });
+  }, [])
 
   useEffect(() => {
     const hightLighterEle = document.createElement("div");

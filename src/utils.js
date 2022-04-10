@@ -22,3 +22,24 @@ export const getStorage = (key) => {
     });
   });
 };
+
+/**
+ * 创建消息体
+ * @param {*} key 
+ * @param {*} value 
+ * @returns 
+ */
+export const createEvent = (key, value) => {
+  return {
+    key,
+    value,
+  };
+};
+
+export const createResponse = (success = false, errMsg = "", data) => {
+  return {
+    success,
+    errMsg,
+    data
+  }
+}
