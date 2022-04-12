@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { ActionMode, getStorage, isDevelopmentEnv, isProductionEnv } from "../utils";
+import { ActionMode, getStorage, isDevelopmentEnv, isProductionEnv, setStorage } from "../utils";
 import GetStart from "../components/GetStart";
 import Record from "../components/Record";
 import {PLUGIN_STATUS_KEY} from "../config";
@@ -38,7 +38,8 @@ export default class Content extends React.Component {
          if (key === PLUGIN_STATUS_KEY) {
            this.setState({
              mode: newValue,
-           })
+           });
+           setStorage(PLUGIN_STATUS_KEY, newValue);
          }
         }
       });

@@ -44,31 +44,22 @@ chrome.action?.onClicked.addListener(async (tab) => {
   setStorage(PLUGIN_STATUS_KEY, prevStatus !== ActionMode.None ? ActionMode.None : ActionMode.Init);
 });
 
-async function captureVisibleTab() {
-  // chrome.tabs.captureVisibleTab().then((dataUrl)=> {
-  //   chrome.runtime.sendMessage({
-  //     key: CAPTURE_TAB_DATA,
-  //     data: dataUrl,
-  //   }, (response) => {
-  //     const a = response;
-  //     console.log(a);
-  //   });
-  // });
-
-  chrome.runtime.sendMessage({
-    key: CAPTURE_TAB_DATA,
-    data: "dataUrl",
-  }, (response) => {
-    if (chrome.runtime.lastError) {
-      // do you work, that's it. No more unchecked error
-    }
+async function captureVisibleTab(tabId) {
+  chrome.tabs.captureVisibleTab().then((dataUrl)=> {
+    chrome.tabs.sendMessage(tabId, {
+      key: CAPTURE_TAB_DATA,
+      data: dataUrl,
+    }, (response) => {
+      console.log(response);
+    });
   });
 }
 
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log("sender:", sender);
   if (message.key === CAPTURE_TAB) {
-    captureVisibleTab();
+    captureVisibleTab(sender.tab.id);
     sendResponse(createResponse(true));
   }
 });

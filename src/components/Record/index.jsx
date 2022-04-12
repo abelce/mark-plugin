@@ -4,10 +4,12 @@ import CompleteSvg from "./CompleteSvg";
 import CloseSvg from "./CloseSvg";
 import "./style.scss";
 import { APP_ID, CAPTURE_TAB, CAPTURE_TAB_DATA } from "../../config";
+import { createResponse } from "../../utils";
 
 export default () => {
   const _actionsRef = useRef(document.getElementById(APP_ID));
   const [focusEle, setFocusEle] = useState();
+  const [workflowItems, setWorkflowItems] = useState([]);
 
   const windowHoverEvent = (event) => {
     if ((!focusEle || focusEle !== event.target)) {
@@ -60,6 +62,16 @@ export default () => {
   // 关闭截屏功能
   const handleClose = () => {};
 
+  const updateWorkflowItems = (dataUrl) => {
+    setWorkflowItems([
+      ...workflowItems,
+      {
+        title: document.title,
+        dataUrl,
+      }
+    ])
+  }
+
   useEffect(() => {
     addWindowEvent();
     return removeWindowEvent;
@@ -68,7 +80,7 @@ export default () => {
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.key === CAPTURE_TAB_DATA) {
-        debugger;
+        updateWorkflowItems(message.data);
         sendResponse(createResponse(true));
       }
     });
@@ -93,6 +105,7 @@ export default () => {
       <div className="recording-actions">
         <div className="icon complete">
           <CompleteSvg className="complete-icon" />
+          {workflowItems.length}
         </div>
         <div className="icon close" onClick={handleClose}>
           <CloseSvg className="close-icon" />
