@@ -1,11 +1,23 @@
-import { CAPTURE_TAB, CAPTURE_TAB_DATA, PLUGIN_STATUS_KEY } from "../config";
-import { ActionMode, createResponse, getStorage, setStorage } from "../utils";
+import {
+  CAPTURE_TAB,
+  CAPTURE_TAB_DATA,
+  IMAGES_LIST,
+  PLUGIN_STATUS_KEY
+} from '../config'
+import {
+  ActionMode,
+  createResponse,
+  getSessionStorage,
+  getStorage,
+  setSessionStorage,
+  setStorage
+} from '../utils'
 
 chrome.runtime.onInstalled.addListener(async () => {
   // While we could have used `let url = "hello.html"`, using runtime.getURL is a bit more robust as
   // it returns a full URL rather than just a path that Chrome needs to be resolved contextually at
   // runtime.
-  let url = chrome.runtime.getURL("index.html");
+  let url = chrome.runtime.getURL('index.html')
 
   // Open a new tab pointing at our page's URL using JavaScript's object initializer shorthand.
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#new_notations_in_ecmascript_2015
@@ -22,44 +34,48 @@ chrome.runtime.onInstalled.addListener(async () => {
   // To view this log message, open chrome://extensions, find "Hello, World!", and click the
   // "service worker" link in the card to open DevTools.
   //   console.log(`Created tab ${tab.id}`);
+})
 
-});
-
-function reddenPage() {
-  document.body.style.backgroundColor = "red";
+function reddenPage () {
+  document.body.style.backgroundColor = 'red'
 }
-
-//   chrome.action.onClicked.addListener((tab) => {
-//     if(!tab.url.includes("chrome://")) {
-//       chrome.scripting.executeScript({
-//         target: { tabId: tab.id },
-//         function: reddenPage
-//       });
-//     }
-//   });
 
 // icon 点击事件
-chrome.action?.onClicked.addListener(async (tab) => {
-  const prevStatus = await getStorage(PLUGIN_STATUS_KEY);
-  setStorage(PLUGIN_STATUS_KEY, prevStatus !== ActionMode.None ? ActionMode.None : ActionMode.Init);
-});
+chrome.action?.onClicked.addListener(async tab => {
+  const prevStatus = await getStorage(PLUGIN_STATUS_KEY)
+  setStorage(
+    PLUGIN_STATUS_KEY,
+    prevStatus !== ActionMode.None ? ActionMode.None : ActionMode.Init
+  )
+})
 
-async function captureVisibleTab(tabId) {
-  chrome.tabs.captureVisibleTab().then((dataUrl)=> {
-    chrome.tabs.sendMessage(tabId, {
+async function captureVisibleTab (tab) {
+  const imagesList = (await getSessionStorage(IMAGES_LIST)) || []
+  const dataUrl = await chrome.tabs.captureVisibleTab();
+  const newItem = {
+    dataUrl,
+    title: tab.title,
+    url: tab.url,
+    favIconUrl: tab.favIconUrl
+  }
+  imagesList.push(newItem)
+  chrome.tabs.sendMessage(
+    tab.id,
+    {
       key: CAPTURE_TAB_DATA,
-      data: dataUrl,
-    }, (response) => {
-      console.log(response);
-    });
-  });
+      data: imagesList
+    },
+    response => {
+      console.log(response)
+      setSessionStorage(IMAGES_LIST, imagesList);
+    }
+  )
 }
 
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("sender:", sender);
+  console.log('sender:', sender)
   if (message.key === CAPTURE_TAB) {
-    captureVisibleTab(sender.tab.id);
-    sendResponse(createResponse(true));
+    captureVisibleTab(sender.tab)
+    sendResponse(createResponse(true))
   }
-});
+})

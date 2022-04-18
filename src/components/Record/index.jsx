@@ -3,8 +3,8 @@ import IFrame from "../IFrame";
 import CompleteSvg from "./CompleteSvg";
 import CloseSvg from "./CloseSvg";
 import "./style.scss";
-import { APP_ID, CAPTURE_TAB, CAPTURE_TAB_DATA } from "../../config";
-import { createResponse } from "../../utils";
+import { APP_ID, CAPTURE_TAB, CAPTURE_TAB_DATA, IMAGES_LIST } from "../../config";
+import { createResponse, getSessionStorage } from "../../utils";
 
 export default () => {
   const _actionsRef = useRef(document.getElementById(APP_ID));
@@ -62,14 +62,8 @@ export default () => {
   // 关闭截屏功能
   const handleClose = () => {};
 
-  const updateWorkflowItems = (dataUrl) => {
-    setWorkflowItems([
-      ...workflowItems,
-      {
-        title: document.title,
-        dataUrl,
-      }
-    ])
+  const updateWorkflowItems = (imagesList) => {
+    setWorkflowItems([...imagesList]);
   }
 
   useEffect(() => {
@@ -78,18 +72,34 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      if (message.key === CAPTURE_TAB_DATA) {
-        updateWorkflowItems(message.data);
-        sendResponse(createResponse(true));
-      }
-    });
-  }, [])
+    const loadInitData = async () => {
+      const imagesList = await getSessionStorage(IMAGES_LIST) || [];
+      updateWorkflowItems(imagesList);
+    }
+    loadInitData();
+  }, []);
+
+  const messageListener = (message, sender, sendResponse) => {
+    if (message.key === CAPTURE_TAB_DATA) {
+      sendResponse(createResponse(true));
+      updateWorkflowItems(message.data);
+    }
+  }
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener(messageListener);
+    return () => {
+      chrome.runtime.onMessage.removeListener(messageListener);
+    }
+  }, [workflowItems]);
 
   useEffect(() => {
     const hightLighterEle = document.createElement("div");
     hightLighterEle.setAttribute("class", "screen-hight-lighter");
     document.body.appendChild(hightLighterEle);
+    return () => {
+      document.body.removeChild(hightLighterEle);
+    }
   }, []);
 
   useEffect(() => {

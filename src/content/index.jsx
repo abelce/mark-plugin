@@ -27,22 +27,24 @@ export default class Content extends React.Component {
     // });
 
     if (isProductionEnv) {
-      const cacheStatus = await getStorage(PLUGIN_STATUS_KEY);
-      if (cacheStatus) {
-        this.setState({
-          mode: cacheStatus,
-        })
-      }
       chrome.storage.onChanged.addListener( (changes, namespace) => {
         for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
          if (key === PLUGIN_STATUS_KEY) {
            this.setState({
              mode: newValue,
            });
+           debugger;
            setStorage(PLUGIN_STATUS_KEY, newValue);
          }
         }
       });
+      const cacheStatus = await getStorage(PLUGIN_STATUS_KEY) || ActionMode.Init;
+      console.log("cacheStatus", cacheStatus);
+      if (cacheStatus) {
+        this.setState({
+          mode: cacheStatus,
+        })
+      }
     }
   };
 
@@ -59,8 +61,10 @@ export default class Content extends React.Component {
         return (
           <GetStart onClick={() => this.onChangeMode(ActionMode.Record)} />
         );
+        break;
       case ActionMode.Record:
         return <Record />;
+        break;
       default:
         return null;
     }

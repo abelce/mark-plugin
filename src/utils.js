@@ -18,7 +18,23 @@ export const setStorage = (key, value) => {
 export const getStorage = (key) => {
   return new Promise((resolve) => {
     chrome.storage.local.get([key], (result) => {
-      resolve(result[key]);
+      resolve(result ? result[key] : undefined);
+    });
+  });
+};
+
+export const setSessionStorage = (key, value) => {
+  return new Promise((resolve) => {
+    chrome.storage.session.set({ [key]: value }, () => {
+      resolve();
+    });
+  });
+};
+
+export const getSessionStorage = (key) => {
+  return new Promise((resolve) => {
+    chrome.storage.session.get([key], (result) => {
+      resolve(result ? result[key] : undefined);
     });
   });
 };
