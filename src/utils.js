@@ -7,6 +7,8 @@ export const ActionMode = {
 export const isDevelopmentEnv = process.env.NODE_ENV === "development";
 export const isProductionEnv = process.env.NODE_ENV === "production";
 
+export const isProd = process.env.BUILD_ENV === "prod";
+
 export const setStorage = (key, value) => {
   return new Promise((resolve) => {
     chrome.storage.local.set({ [key]: value }, () => {

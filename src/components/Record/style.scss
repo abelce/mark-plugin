@@ -4,7 +4,7 @@
   border-width: 2px;
   border-style: solid;
   border-color: red;
-  z-index: 99999;
+  z-index: 9999;
   top: 0;
   right: 0;
   bottom: 0;
@@ -27,6 +27,7 @@
 .recording-actions {
   display: flex;
   align-items: center;
+  position: relative;
   .icon {
     display: flex;
     align-items: center;
@@ -41,6 +42,7 @@
     height: 48px;
     width: 48px;
     background-color: #ffa940;
+    box-shadow: rgb(0 0 0 / 10%) 0px 4px 4px;
 
     &-icon {
       width: 24px;
@@ -56,5 +58,18 @@
       width: 24px;
       height: 24px;
     }
+  }
+
+  .count {
+    position: absolute;
+    right: -8px;
+    top: -10px;
+    background-color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);
   }
 }
