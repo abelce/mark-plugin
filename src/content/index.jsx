@@ -9,11 +9,17 @@ import {
 } from "../utils";
 import GetStart from "../components/GetStart";
 import Record from "../components/Record";
-import { OPEN_SITE_CREATE_PAGE_SUCCESS, PLUGIN_STATUS_KEY, SEND_DATA_TO_SITE_CREATE_PAGE } from "../config";
+import {
+  OPEN_SITE_CREATE_PAGE_SUCCESS,
+  PLUGIN_STATUS_KEY,
+  REQUEST_SNED_TAB_DATA,
+  SEND_DATA_TO_SITE_CREATE_PAGE,
+  TAB_ONACTIVATED,
+} from "../config";
 
 export default class Content extends React.Component {
   state = {
-    mode: isDevelopmentEnv ? ActionMode.Init : ActionMode.None,
+    mode: isDevelopmentEnv ? ActionMode.Record : ActionMode.None,
     runtimeLoaded: false,
   };
 
@@ -27,21 +33,15 @@ export default class Content extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener("message", this.addWindowEvents, true);
-    chrome.runtime.onMessage.removeListener(this.backgroundMessageListener)
+    chrome.runtime.onMessage.removeListener(this.backgroundMessageListener);
   }
 
   init = async () => {
     // https://developer.chrome.com/docs/extensions/reference/runtime/#type-OnInstalledReason
-    // chrome.runtime.onInstalled.addListener( (details) => {
-    //   this.setState({
-    //     runtimeLoaded: true,
-    //   });
-    // });
 
     if (isProductionEnv) {
       chrome.storage.onChanged.addListener((changes, namespace) => {
         for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-          console.log(key, oldValue, newValue);
           if (key === PLUGIN_STATUS_KEY) {
             this.setState({
               mode: newValue,
@@ -51,28 +51,51 @@ export default class Content extends React.Component {
           }
         }
       });
-      const cacheStatus =
-        (await getStorage(PLUGIN_STATUS_KEY)) || ActionMode.None;
-      if (cacheStatus) {
-        this.setState({
-          mode: cacheStatus,
-        });
-      }
+
+      await this.getCacheStatus(true);
     }
     window.addEventListener("message", this.addWindowEvents, true);
-    chrome.runtime.onMessage.addListener(this.backgroundMessageListener)
+    chrome.runtime.onMessage.addListener(this.backgroundMessageListener);
+  };
+
+  getCacheStatus = async (shouldRequestData = false) => {
+    const cacheStatus =
+      (await getStorage(PLUGIN_STATUS_KEY)) || ActionMode.None;
+    if (cacheStatus) {
+      this.setState(
+        {
+          mode: cacheStatus,
+        },
+        () => {
+          // 切换tab成功后请求插件后台发送数据
+          if (shouldRequestData) {
+            chrome.runtime.sendMessage(
+              {
+                key: REQUEST_SNED_TAB_DATA,
+              },
+              (response) => {
+                console.log("REQUEST_SNED_TAB_DATA");
+              }
+            );
+          }
+        }
+      );
+    }
   };
 
   backgroundMessageListener = (message, sender, sendResponse) => {
     if (message.key === SEND_DATA_TO_SITE_CREATE_PAGE) {
-      sendResponse(createResponse(true))
-      console.log("backgroundMessageListener:", message.key, message);
+      sendResponse(createResponse(true));
       window.postMessage({
         key: SEND_DATA_TO_SITE_CREATE_PAGE,
         data: message.data,
-      })
+      });
     }
-  }
+    if (message.key === TAB_ONACTIVATED) {
+      // 切换后需要重新请求数据
+      this.getCacheStatus(true);
+    }
+  };
   addWindowEvents = (event) => {
     // console.log(event);
     // For Chrome, the origin property is in the event.originalEvent
@@ -91,19 +114,19 @@ export default class Content extends React.Component {
     }
 
     if (event.data && typeof event.data !== "object") {
-      return ;
+      return;
     }
 
-    const {key} = event.data;
+    const { key } = event.data;
     if (key === OPEN_SITE_CREATE_PAGE_SUCCESS) {
       chrome.runtime.sendMessage(
         {
-          key: OPEN_SITE_CREATE_PAGE_SUCCESS
+          key: OPEN_SITE_CREATE_PAGE_SUCCESS,
         },
-        response => {
-          console.log("contentjs OPEN_SITE_CREATE_PAGE_SUCCESS", response)
+        (response) => {
+          console.log("contentjs OPEN_SITE_CREATE_PAGE_SUCCESS", response);
         }
-      )
+      );
     }
   };
 
@@ -123,7 +146,10 @@ export default class Content extends React.Component {
     switch (mode) {
       case ActionMode.Init:
         return (
-          <GetStart onClick={() => this.onChangeMode(ActionMode.Record)} />
+          <GetStart
+            onClick={() => this.onChangeMode(ActionMode.Record)}
+            onEnd={() => this.onChangeMode(ActionMode.None)}
+          />
         );
         break;
       case ActionMode.Record:

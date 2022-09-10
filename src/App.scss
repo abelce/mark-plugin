@@ -17,19 +17,21 @@ code {
 }
 
 .screen-iframe-actions {
-  width: 400px;
-  height: 500px;
+  width: 324px;
+  height: 324px;
   top: 12px;
   right: 96px;
-  background-color: #fff;
 }
 
 .screen-iframe-recording {
   height: 48px;
-  // width: 48px;
-  width: 100px;
+  width: 60px;
   left: 12px;
   bottom: 12px;
+}
+
+.screen-iframe-recording:hover {
+  width: 300px;
 }
 .screen-iframe-recording-expand {
   width: 88px;

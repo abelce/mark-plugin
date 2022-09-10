@@ -28,28 +28,51 @@
   display: flex;
   align-items: center;
   position: relative;
+  width: 60px;
+
   .icon {
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: rgb(0 0 0 / 10%) 0px 4px 4px;
+
     &:not(:last-child) {
       margin-right: 12px;
     }
   }
+
   .complete {
     height: 48px;
     width: 48px;
     background-color: #ffa940;
     box-shadow: rgb(0 0 0 / 10%) 0px 4px 4px;
+    position: relative;
 
     &-icon {
       width: 24px;
       height: 24px;
     }
   }
+
+  .count {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    background-color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    border-radius: 50%;
+    font-weight: 400;
+    padding: 0 4px;
+  }
+
+  .reset,
   .close {
+    display: none;
     height: 36px;
     width: 36px;
     background-color: #ffffff;
@@ -60,16 +83,12 @@
     }
   }
 
-  .count {
-    position: absolute;
-    right: -8px;
-    top: -10px;
-    background-color: #ffffff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);
+  &:hover {
+    width: 300px;
+
+    .reset,
+    .close {
+      display: flex;
+    }
   }
 }

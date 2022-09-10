@@ -12,16 +12,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #493664;
+    background-color: #fff;
+    position: relative;
 }
 
 .start-modal-btn {
     height: 96px;
     width: 96px;
-    background-color: red;
+    background-color: #ff9c6e;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+   
+}
+
+.start-modal-notice {
+    font-size: 12px;
+    margin-top: 24px;
+}
+.start-close {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.start-close-icon {
+    width: 16px;
+    height: 16px;
 }

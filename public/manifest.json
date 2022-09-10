@@ -22,7 +22,8 @@
   },
   "permissions": ["storage", "activeTab", "tabs"],
   "host_permissions": [
-    "https://reactjs.org/"
+    "https://reactjs.org/",
+    "<all_urls>"
   ],
   "content_scripts": [
     {
@@ -40,6 +41,6 @@
     }
   ],
   "externally_connectable": {
-    "matches": [ "http://localhost:3000/*", "http://localhost:4000/*" ]
+    "matches": [ "http://localhost:3000/*", "http://localhost:4000/*", "https://app-cdn.vwood.xyz/*" ]
  }
 }

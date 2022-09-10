@@ -6,7 +6,10 @@ import {
   OPEN_SITE_CREATE_PAGE,
   OPEN_SITE_CREATE_PAGE_SUCCESS,
   PLUGIN_STATUS_KEY,
+  REQUEST_SNED_TAB_DATA,
+  RESET_TAB_DATA,
   SEND_DATA_TO_SITE_CREATE_PAGE,
+  TAB_ONACTIVATED,
 } from "../config";
 import {
   ActionMode,
@@ -55,9 +58,11 @@ chrome.action?.onClicked.addListener(async (tab) => {
 });
 
 async function captureVisibleTab(tab) {
-  console.log("capture...");
   const imagesList = (await getSessionStorage(IMAGES_LIST)) || [];
-  const dataUrl = await chrome.tabs.captureVisibleTab();
+  const dataUrl = await chrome.tabs.captureVisibleTab(undefined, {
+    format: "jpeg",
+    quality: 30,
+  });
   const newItem = {
     dataUrl,
     title: tab.title,
@@ -65,43 +70,39 @@ async function captureVisibleTab(tab) {
     favIconUrl: tab.favIconUrl,
   };
   imagesList.push(newItem);
-  console.log(imagesList);
+  await setSessionStorage(IMAGES_LIST, imagesList);
   chrome.tabs.sendMessage(
     tab.id,
     {
       key: CAPTURE_TAB_DATA,
-      data: imagesList,
+      data: imagesList.length,
     },
-    (response) => {
-      console.log(response);
-      setSessionStorage(IMAGES_LIST, imagesList);
-    }
+    (response) => {}
   );
 }
 
 async function openSiteCreatePage() {
-  const imagesList = getSessionStorage(IMAGES_LIST) || [];
   const newTab = await chrome.tabs.create({
     url: isProd
-      ? "https://app.vwood.xyz/Workflow/Create"
-      : "http://localhost:4000/Workflow/Create",
+      ? "https://app.vwood.xyz/Workflow/Create?from=plugin"
+      : "http://localhost:4000/Workflow/Create?from=plugin",
     active: true,
   });
-  console.log("创建站点tab页成功之后：", imagesList);
-  // chrome.tabs.sendMessage(
-  //   newTab.id,
-  //   {
-  //     key: SEND_DATA_TO_SITE_CREATE_PAGE,
-  //     data: imagesList,
-  //   },
-  //   (response) => {
-  //     setSessionStorage(IMAGES_LIST, []);
-  //   }
-  // );
 }
 
+const resetTabData = async (tab) => {
+  await setSessionStorage(IMAGES_LIST, []);
+  chrome.tabs.sendMessage(
+    tab.id,
+    {
+      key: CAPTURE_TAB_DATA,
+      data: 0,
+    },
+    (response) => {}
+  );
+};
+
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  console.log("background:", message);
   if (message.key === CAPTURE_TAB) {
     captureVisibleTab(sender.tab);
     sendResponse(createResponse(true));
@@ -110,14 +111,16 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     openSiteCreatePage();
     sendResponse(createResponse(true));
   }
+  if (message.key === RESET_TAB_DATA) {
+    await resetTabData(sender.tab);
+    sendResponse(createResponse(true));
+  }
   if (message.key === CLEAR_IMAGES_LIST) {
     // 清空数据
     setSessionStorage(IMAGES_LIST, []);
     sendResponse(createResponse(true));
   }
   if (message.key === OPEN_SITE_CREATE_PAGE_SUCCESS) {
-    console.log("background success:", message.key);
-
     setTimeout(async () => {
       const imagesList = (await getSessionStorage(IMAGES_LIST)) || [];
       chrome.tabs.sendMessage(
@@ -134,4 +137,30 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
     sendResponse(createResponse(true));
   }
+  if (message.key === REQUEST_SNED_TAB_DATA) {
+    const imagesList = (await getSessionStorage(IMAGES_LIST)) || [];
+    chrome.tabs.sendMessage(
+      sender.tab.id,
+      {
+        key: CAPTURE_TAB_DATA,
+        data: imagesList.length,
+      },
+      (response) => {
+      }
+    );
+    sendResponse(createResponse(true));
+  }
+});
+
+// 浏览器页签激活
+chrome.tabs.onActivated.addListener(({ tabId }) => {
+  chrome.tabs.sendMessage(
+    tabId,
+    {
+      key: TAB_ONACTIVATED,
+    },
+    async (response) => {
+      // 唤醒后同步数据
+    }
+  );
 });

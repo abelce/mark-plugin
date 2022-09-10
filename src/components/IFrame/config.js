@@ -1,7 +1,7 @@
 export const iframeSrcDoc = `<!DOCTYPE html>
 <html>  
   <head> 
-    <base key="base" href="http://localhost:3000/"> 
+    <base key="base" href="https://extension.vwood.xyz/"> 
     <link key="css" type="text/css" rel="stylesheet" href="/static/css/content.css"/> 
   </head> 
   <body> 
