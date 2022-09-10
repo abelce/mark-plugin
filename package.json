@@ -61,7 +61,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build:test": "BUILD_ENV=test && node scripts/build.js",
-    "build:prod": "BUILD_ENV=prod && node scripts/build.js && rm -rf workflow && cp -r build/ workflow",
+    "build:prod": "BUILD_ENV=prod && node scripts/build.js && rm -rf workflow && cp -r build/ workflow && node ./upyun/index.js",
     "upload": "zip -r extension/workflow.zip workflow && node ./upyun/extension.js",
     "test": "node scripts/test.js"
   },
