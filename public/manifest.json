@@ -41,6 +41,6 @@
     }
   ],
   "externally_connectable": {
-    "matches": [ "http://localhost:3000/*", "http://localhost:4000/*", "https://app-cdn.vwood.xyz/*" ]
+    "matches": [ "http://localhost:3000/*", "http://localhost:4000/*", "https://extension.vwood.xyz/*" ]
  }
 }
